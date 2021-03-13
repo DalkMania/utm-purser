@@ -1,0 +1,19 @@
+{
+  "name": "utm-purser",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://git@github.com/DalkMania/utm-purser.git"
+  },
+  "author": "Niklas Dahlqvist <dalkmania@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DalkMania/utm-purser/issues"
+  },
+  "homepage": "https://github.com/DalkMania/utm-purser#readme"
+}
