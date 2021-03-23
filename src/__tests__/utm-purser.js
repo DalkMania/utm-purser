@@ -7,33 +7,130 @@ describe("UTMPurser", () => {
         delete window.location;
     });
 
-    it(`Get proper UTM params based on real URL`, () => {
-        window.location = {
-            toString: () =>
-                "http://example.com?utm_source=example&utm_content=content&utm_medium=medium&utm_campaign=campaign&utm_name=name&utm_tem=term",
-            origin: "http://example.com",
-            pathname: "/"
-        };
+    describe("UTMPurser.create()", () => {
+        it(`It creates a Purser Visitor Object with UTM params based on a real URL`, () => {
+            window.location = {
+                toString: () =>
+                    "http://example.com?utm_source=example&utm_content=content&utm_medium=medium&utm_campaign=campaign&utm_name=name&utm_tem=term",
+                origin: "http://example.com",
+                pathname: "/"
+            };
 
-        const expected = {
-            utm_source: "example",
-            utm_medium: "medium",
-            utm_campaign: "campaign",
-            utm_content: "content",
-            utm_name: "name"
-        };
+            const expected = {
+                referrer: "direct",
+                browser_timezone: 0,
+                browser_language: "en-US",
+                landing_page: "http://example.com/",
+                last_visit: 1572393600,
+                pageviews: 1,
+                first_website_visit: "2019-10-30T00:00:00.000Z",
+                screen_height: 0,
+                screen_width: 0,
+                utm_source: "example",
+                utm_medium: "medium",
+                utm_campaign: "campaign",
+                utm_content: "content",
+                utm_name: "name"
+            };
 
-        expect(UTMPurser.parseUTM()).toEqual(expect.objectContaining(expected));
+            expect(UTMPurser.create()).toStrictEqual(expected);
+        });
+
+        it(`It creates a Purser Visitor Object without UTM params based on a real URL without UTM params`, () => {
+            window.location = {
+                toString: () => "http://example.com",
+                origin: "http://example.com",
+                pathname: "/"
+            };
+
+            const expected = {
+                referrer: "direct",
+                browser_timezone: 0,
+                browser_language: "en-US",
+                landing_page: "http://example.com/",
+                last_visit: 1572393600,
+                pageviews: 1,
+                first_website_visit: "2019-10-30T00:00:00.000Z",
+                screen_height: 0,
+                screen_width: 0
+            };
+
+            expect(UTMPurser.create()).toStrictEqual(expected);
+        });
     });
 
-    it(`Get the valid UTM params based on real URL with some invalid params`, () => {
-        window.location = {
-            toString: () =>
-                "http://example.com?utm_source=example&utm_content=content&utm_medium=medium&utm_campaign=campaign&utm_name=name&utm_tem=term&utm_invalid=invalid",
-            origin: "http://example.com",
-            pathname: "/"
-        };
+    describe("UTMPurser.parseUTM()", () => {
+        it(`Get proper UTM params based on real URL`, () => {
+            window.location = {
+                toString: () =>
+                    "http://example.com?utm_source=example&utm_content=content&utm_medium=medium&utm_campaign=campaign&utm_name=name&utm_tem=term",
+                origin: "http://example.com",
+                pathname: "/"
+            };
 
-        expect(UTMPurser.parseUTM()).not.toHaveProperty("utm_invalid");
+            const expected = {
+                utm_source: "example",
+                utm_medium: "medium",
+                utm_campaign: "campaign",
+                utm_content: "content",
+                utm_name: "name"
+            };
+
+            expect(UTMPurser.parseUTM()).toEqual(expect.objectContaining(expected));
+        });
+
+        it(`Get the valid UTM params based on real URL with some invalid params`, () => {
+            window.location = {
+                toString: () =>
+                    "http://example.com?utm_source=example&utm_content=content&utm_medium=medium&utm_campaign=campaign&utm_name=name&utm_tem=term&utm_invalid=invalid",
+                origin: "http://example.com",
+                pathname: "/"
+            };
+
+            expect(UTMPurser.parseUTM()).not.toHaveProperty("utm_invalid");
+        });
+
+        it(`Return empty object if URL does not contain utm params`, () => {
+            window.location = {
+                toString: () => "http://example.com",
+                origin: "http://example.com",
+                pathname: "/"
+            };
+
+            const notExpected = {
+                utm_source: "example",
+                utm_medium: "medium",
+                utm_campaign: "campaign",
+                utm_content: "content",
+                utm_name: "name"
+            };
+
+            expect(UTMPurser.parseUTM()).toEqual(expect.not.objectContaining(notExpected));
+        });
+    });
+
+    describe("UTMPurser.save()", () => {
+        it(`Saves proper object to localStorage`, () => {
+            const params = {
+                referrer: "direct",
+                browser_timezone: 0,
+                browser_language: "en-US",
+                landing_page: "http://example.com/",
+                last_visit: 1572393600,
+                pageviews: 1,
+                first_website_visit: "2019-10-30T00:00:00.000Z",
+                screen_height: 0,
+                screen_width: 0,
+                utm_source: "example",
+                utm_medium: "medium",
+                utm_campaign: "campaign",
+                utm_content: "content",
+                utm_name: "name"
+            };
+
+            expect(UTMPurser.save(params)).toBe(true);
+
+            expect(localStorage.setItem).toHaveBeenLastCalledWith("purser_visitor", JSON.stringify(params));
+        });
     });
 });

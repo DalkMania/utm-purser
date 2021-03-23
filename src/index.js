@@ -1,10 +1,10 @@
 import "url-polyfill";
-import UTMStorage from "./UTMStorage";
+import Storage from "./Storage";
 import Pageviews from "./PageViews";
 import Visits from "./Visits";
 
 const allowedUTMParams = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_name", "utm_term", "gclid"];
-const storage = new UTMStorage();
+const storage = new Storage();
 
 class UTMPurser {
     static init() {

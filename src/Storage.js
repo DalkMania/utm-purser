@@ -1,4 +1,4 @@
-class UTMStorage {
+class Storage {
     constructor() {
         try {
             const ls = window.localStorage;
@@ -24,4 +24,4 @@ class UTMStorage {
     }
 }
 
-export default UTMStorage;
+export default Storage;
