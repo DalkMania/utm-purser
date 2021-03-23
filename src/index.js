@@ -71,12 +71,17 @@ class UTMPurser {
     }
 
     /**
-     * Save UTM params in localStorage
+     * Save params in localStorage
      *
      * @param {Object} params
      * @return {Boolean}
      */
     static save(params) {
+        if (!params) {
+            return false;
+        }
+
+        storage.setItem("purser_visitor", JSON.stringify(params));
         return true;
     }
 

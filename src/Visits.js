@@ -4,7 +4,7 @@ class Visits {
     static recently() {
         const attributes = UTMPurser.get();
         if (!attributes.last_visit) return false;
-        var timeDiffInHours = (parseInt(new Date().getTime() / 1000) - attributes.last_visit) / 3600;
+        const timeDiffInHours = (parseInt(new Date().getTime() / 1000) - attributes.last_visit) / 3600;
         return timeDiffInHours < 0.5; // last visited less than half an hour ago.
     }
 

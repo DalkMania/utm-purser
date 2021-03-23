@@ -35,6 +35,5 @@ describe("UTMPurser", () => {
         };
 
         expect(UTMPurser.parseUTM()).not.toHaveProperty("utm_invalid");
-        console.log(UTMPurser.init());
     });
 });
