@@ -131,6 +131,43 @@ describe("UTMPurser", () => {
             expect(UTMPurser.save(params)).toBe(true);
 
             expect(localStorage.setItem).toHaveBeenLastCalledWith("purser_visitor", JSON.stringify(params));
+            expect(Object.keys(localStorage.__STORE__).length).toBe(1);
+            expect(localStorage.__STORE__.purser_visitor).toStrictEqual(JSON.stringify(params));
+        });
+    });
+
+    describe("UTMPurser.get()", () => {
+        it(`Retrieves the proper object from localStorage`, () => {
+            const expected = {
+                referrer: "direct",
+                browser_timezone: 0,
+                browser_language: "en-US",
+                landing_page: "http://example.com/",
+                last_visit: 1572393600,
+                pageviews: 1,
+                first_website_visit: "2019-10-30T00:00:00.000Z",
+                screen_height: 0,
+                screen_width: 0,
+                utm_source: "example",
+                utm_medium: "medium",
+                utm_campaign: "campaign",
+                utm_content: "content",
+                utm_name: "name"
+            };
+
+            const UTMPurserGet = jest.fn(() => UTMPurser.get());
+            UTMPurserGet();
+            expect(localStorage.getItem).toHaveBeenCalledWith("purser_visitor");
+            expect(UTMPurserGet).toHaveReturnedWith(expected);
+        });
+
+        it(`Return false whem no object from localStorage is present`, () => {
+            localStorage.clear();
+
+            const UTMPurserGet = jest.fn(() => UTMPurser.get());
+            UTMPurserGet();
+            expect(localStorage.getItem).toHaveBeenCalledWith("purser_visitor");
+            expect(UTMPurserGet).toHaveReturnedWith(false);
         });
     });
 });
