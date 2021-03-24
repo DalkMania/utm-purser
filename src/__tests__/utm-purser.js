@@ -136,6 +136,8 @@ describe("UTMPurser", () => {
         });
     });
 
+    describe("UTMPurser.update()", () => {});
+
     describe("UTMPurser.get()", () => {
         it(`Retrieves the proper object from localStorage`, () => {
             const expected = {
