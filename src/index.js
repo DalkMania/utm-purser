@@ -7,6 +7,10 @@ const allowedUTMParams = ["utm_source", "utm_medium", "utm_campaign", "utm_conte
 const storage = new Storage();
 
 class UTMPurser {
+    /**
+     * Initialize the Purser
+     *
+     */
     static init() {
         if (!this.get()) {
             this.create();
@@ -18,6 +22,11 @@ class UTMPurser {
         }
     }
 
+    /**
+     * Create the Purser Local Storage Object
+     *
+     * @return {Object}
+     */
     static create() {
         const attributes = {
             referrer: document.referrer.length ? document.referrer : "direct",
@@ -37,6 +46,11 @@ class UTMPurser {
         return attributes;
     }
 
+    /**
+     * Update the Purser Local Storage Object
+     *
+     * @return {Object}
+     */
     static update(obj) {
         let attributes = this.get();
         if (!attributes) {
@@ -48,6 +62,21 @@ class UTMPurser {
             }
         }
 
+        this.save(attributes);
+        return attributes;
+    }
+    /**
+     * Convert the Local Storage Object and
+     * add relevant conversion details
+     *
+     * @return {Object}
+     */
+    static convert(obj) {
+        let attributes = this.update(obj);
+        attributes.converted_at = new Date().toISOString();
+        attributes.conversion_page = window.location.origin + window.location.pathname;
+        attributes.visits_at_conversion = (attributes.visits || []).length;
+        attributes.pageviews_before_conversion = attributes.pageviews || 0;
         this.save(attributes);
         return attributes;
     }

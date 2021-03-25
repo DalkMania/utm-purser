@@ -79,6 +79,7 @@ describe("Visits", () => {
             const mockDate = new Date(1572397080000);
             const spy = jest.spyOn(global, "Date").mockImplementation(() => mockDate);
             expect(Visits.create()).toMatchObject(expected);
+            expect(Visits.create()).toHaveProperty("visits");
             spy.mockRestore();
         });
     });
