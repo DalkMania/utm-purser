@@ -20,7 +20,7 @@ class Storage {
     }
 
     getLocalItem(key) {
-        this.localMockedStorage[key];
+        this.localMockedStorage[this.prefixToAvoidBuiltIns + key];
     }
 }
 
