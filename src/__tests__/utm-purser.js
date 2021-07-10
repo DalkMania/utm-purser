@@ -1,5 +1,9 @@
 import UTMPurser from "../index";
 
+/**
+ * @jest-environment jsdom
+ */
+
 jest.useFakeTimers("modern").setSystemTime(new Date("2019-10-30").getTime());
 
 describe("UTMPurser", () => {
@@ -11,7 +15,7 @@ describe("UTMPurser", () => {
         it(`It creates a Purser Visitor Object with UTM params based on a real URL`, () => {
             window.location = {
                 toString: () =>
-                    "http://example.com?utm_source=example&utm_content=content&utm_medium=medium&utm_campaign=campaign&utm_name=name&utm_tem=term",
+                    "http://example.com?utm_source=example&utm_content=content&utm_medium=medium&utm_campaign=campaign&utm_name=name&utm_term=term",
                 origin: "http://example.com",
                 pathname: "/"
             };
@@ -30,7 +34,8 @@ describe("UTMPurser", () => {
                 utm_medium: "medium",
                 utm_campaign: "campaign",
                 utm_content: "content",
-                utm_name: "name"
+                utm_name: "name",
+                utm_term: "term"
             };
 
             expect(UTMPurser.create()).toStrictEqual(expected);
@@ -63,7 +68,7 @@ describe("UTMPurser", () => {
         it(`Get proper UTM params based on real URL`, () => {
             window.location = {
                 toString: () =>
-                    "http://example.com?utm_source=example&utm_content=content&utm_medium=medium&utm_campaign=campaign&utm_name=name&utm_tem=term",
+                    "http://example.com?utm_source=example&utm_content=content&utm_medium=medium&utm_campaign=campaign&utm_name=name&utm_term=term",
                 origin: "http://example.com",
                 pathname: "/"
             };
@@ -73,7 +78,8 @@ describe("UTMPurser", () => {
                 utm_medium: "medium",
                 utm_campaign: "campaign",
                 utm_content: "content",
-                utm_name: "name"
+                utm_name: "name",
+                utm_term: "term"
             };
 
             expect(UTMPurser.parseUTM()).toEqual(expect.objectContaining(expected));
@@ -82,7 +88,7 @@ describe("UTMPurser", () => {
         it(`Get the valid UTM params based on real URL with some invalid params`, () => {
             window.location = {
                 toString: () =>
-                    "http://example.com?utm_source=example&utm_content=content&utm_medium=medium&utm_campaign=campaign&utm_name=name&utm_tem=term&utm_invalid=invalid",
+                    "http://example.com?utm_source=example&utm_content=content&utm_medium=medium&utm_campaign=campaign&utm_name=name&utm_term=term&utm_invalid=invalid",
                 origin: "http://example.com",
                 pathname: "/"
             };
