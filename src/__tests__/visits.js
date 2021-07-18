@@ -1,10 +1,6 @@
 import Visits from "../Visits";
 import UTMPurser from "../index";
 
-/**
- * @jest-environment jsdom
- */
-
 jest.useFakeTimers("modern").setSystemTime(new Date("2019-10-30").getTime());
 
 describe("Visits", () => {
