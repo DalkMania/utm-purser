@@ -39,7 +39,7 @@ class Visits {
         let attributes = UTMPurser.get();
 
         for (const key in obj) {
-            if (obj.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(obj, key)) {
                 visit[key] = obj[key];
             }
         }

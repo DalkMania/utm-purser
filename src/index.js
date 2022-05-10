@@ -57,7 +57,7 @@ class UTMPurser {
             attributes = this.create();
         }
         for (let key in obj) {
-            if (obj.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(obj, key)) {
                 attributes[key] = obj[key];
             }
         }
@@ -90,7 +90,7 @@ class UTMPurser {
         const urlSearch = new URL(window.location);
         const urlParams = new URLSearchParams(urlSearch.search);
         const parsedParams = {};
-        allowedUTMParams.map((key) => {
+        allowedUTMParams.forEach((key) => {
             const paramValue = urlParams.get(key);
             if (paramValue) {
                 parsedParams[key] = paramValue;
